@@ -1,0 +1,31 @@
+# NOTE: Intentional, sanitized screenshots ARE committed (PNG/JPG under */screenshots/).
+# Image metadata is stripped by the pre-commit image hook. This file blocks the
+# high-risk working artifacts that must never be published.
+
+# Operator and VPN environment
+*.ovpn
+*.conf.local
+*.hosts
+.env
+.env.*
+
+# Raw or unsanitized scanner output (commit sanitized Markdown instead)
+*.gnmap
+*.xml
+*.nessus
+*.masscan
+*.nmap.raw
+scan-output/
+raw-output/
+
+# Shell and tool history
+.bash_history
+.zsh_history
+.msf4/
+loot/
+
+# Temporary authoring and transfer artifacts
+*.tar.gz
+*.zip
+*.tmp
+*.bak

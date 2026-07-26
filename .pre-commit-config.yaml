@@ -1,0 +1,45 @@
+# Local enforcement gate. Install once with:  pip install pre-commit && pre-commit install
+# Hooks can be bypassed with --no-verify locally; CI re-runs the authoritative scan and cannot be.
+
+repos:
+  # Standard hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=2048]
+      - id: detect-private-key
+
+  # Secrets backstop
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.4
+    hooks:
+      - id: gitleaks
+        args: [--config, .gitleaks.toml]
+
+  # Repo-specific gates (local scripts)
+  - repo: local
+    hooks:
+      - id: audit-sensitive-data
+        name: custom sensitive-data audit
+        entry: bash scripts/audit-sensitive-data.sh .
+        language: system
+        pass_filenames: false
+
+      - id: validate-writeups
+        name: write-up content-integrity validator
+        entry: python3 scripts/validate-writeups.py --check .
+        language: system
+        pass_filenames: false
+
+      - id: inspect-images
+        name: screenshot metadata review
+        entry: bash scripts/inspect-images.sh hack-the-box
+        language: system
+        pass_filenames: false
+        types: [image]

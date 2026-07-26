@@ -1,0 +1,53 @@
+name: security-gates
+
+# Authoritative, non-bypassable gate on every push and PR (local pre-commit hooks can be skipped
+# with --no-verify; this cannot). Scope per gate:
+#   - gitleaks:                          full Git-history secrets scan (fetch-depth 0 + detect)
+#   - custom audit / validator / images: current-tree publication scan
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+permissions:
+  contents: read
+
+jobs:
+  security-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install tooling (gitleaks + exiftool)
+        run: |
+          set -euo pipefail
+          GITLEAKS_VERSION=8.18.4
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | sudo tar -xz -C /usr/local/bin gitleaks
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libimage-exiftool-perl
+
+      - name: gitleaks (secrets scan, full history)
+        run: gitleaks detect --source . --config .gitleaks.toml --redact --no-banner --verbose
+
+      - name: Custom sensitive-data audit
+        run: bash scripts/audit-sensitive-data.sh .
+
+      - name: Write-up content-integrity validation
+        run: python3 scripts/validate-writeups.py --check .
+
+      - name: Screenshot metadata review
+        run: bash scripts/inspect-images.sh hack-the-box
+
+      - name: Success marker
+        run: echo "SECURITY GATES PASSED"

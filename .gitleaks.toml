@@ -1,0 +1,39 @@
+# gitleaks configuration — secrets backstop under scripts/audit-sensitive-data.sh.
+#
+# Extends the default ruleset (API keys, tokens, private keys, connection strings) and adds a
+# tuned allowlist so this repo's INTENDED content does not false-positive: defanged lab IPs,
+# placeholder tokens, box-artifact md5/ssh fingerprints, illustrative truncated blobs.
+
+title = "penetration-testing-portfolio"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Retired-lab write-up content that is not sensitive (see SANITIZATION.md)"
+
+# NOTE: no path-based exemptions. Gitleaks is the general secrets backstop and must scan every
+# file (a real token/key/cookie could land in any directory, including templates or references).
+# Only specific, known-safe VALUES are allow-listed below.
+regexes = [
+  # Approved placeholders
+  '''<operator>''',
+  '''<ATTACKER_IP>''',
+  '''<PORT>''',
+  '''\[REDACTED\]''',
+  '''<REDACTED[^>]*>''',
+  # Defanged lab IPs / URLs
+  '''\d{1,3}\[\.\]\d{1,3}\[\.\]\d{1,3}\[\.\]\d{1,3}''',
+  '''hxxps?://''',
+  # Box-artifact file-integrity checksum shown in the file-transfer reference
+  '''321de1d7e7c3735838890a72c9ae7d1d''',
+  # Target SSH host-key fingerprints (public; appear in every write-up)
+  '''([0-9a-f]{2}:){15}[0-9a-f]{2}''',
+  # Illustrative, truncated base64 blob marked <SNIP>
+  '''<SNIP>''',
+  # Neutralized payload metacharacters
+  '''\[\|\]|\[;\]|\[>\]''',
+]
+
+# Commit allowlist intentionally empty — nothing grandfathered in.
+commits = []
