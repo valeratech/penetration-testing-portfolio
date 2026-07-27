@@ -57,8 +57,10 @@ def check_file(path):
         if is_proof and HEX32.search(line) and not CHECKSUM.search(line) and 'REDACTED' not in line:
             problems.append(f'{path}:{i}: possible unredacted flag in proof/: {line.strip()[:90]}')
 
-    # box write-ups (not the box README, not stubs) should carry a defanging/retired note
-    if in_box and os.path.basename(path) != 'README.md' and len(text) > 400:
+    # box write-ups (not the box README, not stubs, not proof/ artifacts) carry a defanging
+    # note. proof/ files are structural artifacts, not write-ups.
+    is_proof_dir = (os.sep + 'proof' + os.sep) in path
+    if in_box and os.path.basename(path) != 'README.md' and len(text) > 400 and not is_proof_dir:
         if not NOTE_HINT.search(text):
             problems.append(f'{path}: missing defanging/retired note')
 
