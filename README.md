@@ -123,5 +123,4 @@ authorized training environments.
 
 ---
 
-<!-- Add the repository link before publishing -->
-**Related project:** Cybersecurity Investigations Portfolio — my primary defensive body of work (DFIR, SIEM, threat hunting, forensics).
+**Related project:** [Cybersecurity Investigations Portfolio](https://github.com/valeratech/cybersecurity-investigations-portfolio) — my primary defensive body of work (DFIR, SIEM, threat hunting, forensics).
