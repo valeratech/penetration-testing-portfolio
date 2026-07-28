@@ -32,4 +32,7 @@ nibbler@Nibbles:/home/nibbler$ cat user.txt
 | **Phase** | Privilege escalation — `privilege-escalation/privilege-escalation.md` (added at the privilege-escalation milestone) |
 | **Value** | `[REDACTED]` |
 
-*Root flag to be updated upon completion of the privilege-escalation phase.*
+```
+# cat /root/root.txt
+[REDACTED]
+```
