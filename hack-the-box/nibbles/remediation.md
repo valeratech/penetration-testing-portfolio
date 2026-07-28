@@ -16,6 +16,27 @@
 
 ---
 
+
+---
+
+## MITRE ATT&CK Cross-Reference
+
+The following table maps each phase of the engagement to its ATT&CK technique and the
+corresponding detection section in this document.
+
+| Phase | Technique | ID | Detection reference |
+|---|---|---|---|
+| Reconnaissance | Network Service Scanning | T1046 | §3.1 |
+| Web enumeration | File and Directory Discovery | T1083 | §3.1 |
+| Credential discovery | Unsecured Credentials: Credentials In Files | T1552.001 | §3.2 |
+| Initial access | Exploit Public-Facing Application | T1190 | §3.3 |
+| Execution | Command and Scripting Interpreter: Unix Shell | T1059.004 | §3.4 |
+| Tool transfer | Ingress Tool Transfer | T1105 | §3.5 |
+| Discovery | System Information Discovery | T1082 | §3.5 |
+| Privilege escalation | Abuse Elevation Control Mechanism: Sudo and Sudo Caching | T1548.003 | §3.6 |
+
+---
+
 ## Tier 1 — Attack Chain Breakers (Critical)
 
 These findings directly enabled the compromise. Remediating any one of them would have broken the

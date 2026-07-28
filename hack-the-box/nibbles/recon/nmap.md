@@ -200,3 +200,9 @@ The `http-server-header` independently re-confirms Apache 2.4.18.
 exploitable findings. With no additional services exposed and HTTP enumeration yielding little
 information, the investigation naturally shifts toward **manual web-application footprinting**, where
 the intended attack surface is expected to emerge.
+
+---
+
+**Defensive analysis:** detection opportunities from this reconnaissance phase — scanning
+signatures, service enumeration artifacts, and network-layer indicators — are documented in
+[`remediation.md`](../remediation.md) §3.1.

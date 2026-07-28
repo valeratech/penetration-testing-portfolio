@@ -252,3 +252,9 @@ mapped, an administrative interface located, and a candidate vulnerability estab
 version-applicable — but not proven exploitable, and its authentication prerequisite is not yet
 satisfied. Validating those prerequisites, beginning with administrative access, belongs to the
 exploitation phase.
+
+---
+
+**Defensive analysis:** detection opportunities from this phase — directory enumeration
+artifacts, information disclosure findings, and credential-discovery indicators — are
+documented in [`remediation.md`](../remediation.md) §3.1 and §3.2.
